@@ -7,7 +7,7 @@ data "aws_ami" "dl_ami" {
   most_recent = true
   filter  {
     name = "name"
-    values = ["*udacity-carnd-advanced-deep-learning*"]
+    values = ["*Deep Learning AMI (Ubuntu)*"]
   }
 }
 

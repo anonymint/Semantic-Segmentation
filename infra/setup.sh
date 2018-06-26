@@ -6,3 +6,8 @@ if [ ! -d ../data ]; then
     (cd ../data && unzip -qq data_road.zip)
 fi
 
+# this instruction is for Deep Learning Amazon (Ubuntu) 10.0
+source activate tensorflow_p36
+pip install tqdm
+pip install pip install scikit-image
+pip install moviepy

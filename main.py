@@ -25,7 +25,6 @@ def load_vgg(sess, vgg_path):
     :param vgg_path: Path to vgg folder, containing "variables/" and "saved_model.pb"
     :return: Tuple of Tensors from VGG model (image_input, keep_prob, layer3_out, layer4_out, layer7_out)
     """
-    # TODO: Implement function
     #   Use tf.saved_model.loader.load to load the model and weights
     vgg_tag = 'vgg16'
     vgg_input_tensor_name = 'image_input:0'
@@ -53,24 +52,34 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     :return: The Tensor for the last layer of output
     """
     # TODO: Implement function
-    vgg_layer7_conv_1x1 = tf.layers.conv2d(vgg_layer7_out, num_classes, 1, padding='same',
-                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-    output = tf.layers.conv2d_transpose(vgg_layer7_conv_1x1, num_classes, 4, 2, padding='same',
-                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+    # setup constant var
+    l2_scale = 1e-3
 
+    # Get all layers out of vgg
+    # layer 7
+    vgg_layer7_conv_1x1 = tf.layers.conv2d(vgg_layer7_out, num_classes, 1, padding='same',
+                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(l2_scale))
     # layer 4
     vgg_layer4_conv_1x1 = tf.layers.conv2d(vgg_layer4_out, num_classes, 1, padding='same',
-                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-    output = tf.add(output, vgg_layer4_conv_1x1)
-    output = tf.layers.conv2d_transpose(output, num_classes, 4, 2, padding='same',
-                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-
-    # layer 3 do the same
+                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(l2_scale))
+    # layer 3
     vgg_layer3_conv_1x1 = tf.layers.conv2d(vgg_layer3_out, num_classes, 1, padding='same',
-                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(l2_scale))
+
+    # Building the layer 7 => 7+4 ==> 7 + 4 + 3
+    # 2xCon7
+    output = tf.layers.conv2d_transpose(vgg_layer7_conv_1x1, num_classes, 4, 2, padding='same',
+                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(l2_scale))
+    # pool4 + 2xCon7
+    output = tf.add(output, vgg_layer4_conv_1x1)
+    # 2x(pool4 + 2xCon7)
+    output = tf.layers.conv2d_transpose(output, num_classes, 4, 2, padding='same',
+                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(l2_scale))
+
+    # pool3 + 2x(pool4 + 2xCon7)
     output = tf.add(output, vgg_layer3_conv_1x1)
     output = tf.layers.conv2d_transpose(output, num_classes, 16, 8, padding='same',
-                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(l2_scale))
 
     return output
 tests.test_layers(layers)
@@ -87,6 +96,7 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     """
     # TODO: Implement function
     logits = tf.reshape(nn_last_layer, (-1, num_classes))
+    correct_label = tf.reshape(correct_label, (-1, num_classes))
     cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=correct_label))
     optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
     train_op = optimizer.minimize(cross_entropy_loss)
