@@ -101,3 +101,8 @@ ENV/
 .mypy_cache/
 
 RUNS/
+
+#terraform related
+.terraform/
+terraform.tfstate*
+data/
