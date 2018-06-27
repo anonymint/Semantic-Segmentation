@@ -128,13 +128,21 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     """
     custom_kp = 0.5
     custom_lr = 0.0005
+    losses = []
     print("Start Training")
     for epoch in tqdm(range(epochs)):
         for image, label in get_batches_fn(batch_size):
             print(f"Start Epoch: {epoch}")
-            train_op, loss = sess.run([train_op, cross_entropy_loss], feed_dict={input_image: image, correct_label: label, learning_rate: custom_lr,
+            _, loss = sess.run([train_op, cross_entropy_loss], feed_dict={input_image: image, correct_label: label, learning_rate: custom_lr,
                                        keep_prob: custom_kp})
-            print(f"Epoch: {epoch}; loss: {loss} ")
+            losses.append(loss)
+            print("loss: {.8f}".format(loss))
+
+    # save loss to file
+    with open('runs/training_loses.txt', 'w') as f:
+        for l in losses:
+            f.write("{:.8f}\n".format(l))
+
 tests.test_train_nn(train_nn)
 
 
