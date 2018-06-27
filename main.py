@@ -131,12 +131,12 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     losses = []
     print("Start Training")
     for epoch in tqdm(range(epochs)):
+        print(f"Start Epoch: {epoch}")
         for image, label in get_batches_fn(batch_size):
-            print(f"Start Epoch: {epoch}")
             _, loss = sess.run([train_op, cross_entropy_loss], feed_dict={input_image: image, correct_label: label, learning_rate: custom_lr,
                                        keep_prob: custom_kp})
             losses.append(loss)
-            print("loss: {.8f}".format(loss))
+            print("loss: {:.8f}".format(loss))
 
     # save loss to file
     with open('runs/training_loses.txt', 'w') as f:
@@ -153,7 +153,7 @@ def run():
     runs_dir = './runs'
     tests.test_for_kitti_dataset(data_dir)
     epochs = 40
-    batch_size = 5
+    batch_size = 4
 
     # Download pretrained vgg model
     helper.maybe_download_pretrained_vgg(data_dir)
