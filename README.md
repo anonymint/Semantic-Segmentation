@@ -58,11 +58,24 @@ pip install tqdm
 pip install moviepy
 ```
 
+### Training
+
+As mentioned above, I use AWS GPU to train the model with these parameters
+
+* Epoch 40
+* Batch Size 4
+* Learning rate 0.0005
+* Keep Probability 0.5
+
 ### Result
 
 The training result running in AWS took me `13 minutes` to complete `40` epochs which taking me forever on CPU!
 
-`100%|███████████████████████████████████████████████████████████████████████████████| 40/40 [13:16<00:00, 19.91s/it]` 
+`100%|███████████████████████████████████████████████████████████████████████████████| 40/40 [13:16<00:00, 19.91s/it]`
+
+Minimize Loss in training 
+
+![Loss](asset/loss.png)  
 
 And here are example outputs labeling the pixels of a road
 

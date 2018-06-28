@@ -139,7 +139,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
             print("loss: {:.8f}".format(loss))
 
     # save loss to file
-    with open('runs/training_loses.txt', 'w') as f:
+    with open('runs/training_loss.txt', 'w') as f:
         for l in losses:
             f.write("{:.8f}\n".format(l))
 
