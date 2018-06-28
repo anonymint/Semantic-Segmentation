@@ -108,18 +108,18 @@ Minimize Loss in training
 
 And here are example outputs labeling the pixels of a road
 
-![road_1](asset/um_000008.png)
-![road_2](asset/um_000088.png)
-![road_3](asset/umm_000068.png)
-![road_4](asset/uu_000032.png)
-![road_5](asset/uu_000053.png)
-![road_6](asset/uu_000054.png)
-![road_7](asset/uu_000056.png)
-![road_8](asset/uu_000057.png)
-![road_9](asset/uu_000058.png)
-![road_10](asset/uu_000059.png)
-![road_11](asset/uu_000071.png)
-![road 12](asset/uu_000097.png)
+![road_1](runs/1530101366.4601467/um_000008.png)
+![road_2](runs/1530101366.4601467/um_000088.png)
+![road_3](runs/1530101366.4601467/umm_000068.png)
+![road_4](runs/1530101366.4601467/uu_000032.png)
+![road_5](runs/1530101366.4601467/uu_000053.png)
+![road_6](runs/1530101366.4601467/uu_000054.png)
+![road_7](runs/1530101366.4601467/uu_000056.png)
+![road_8](runs/1530101366.4601467/uu_000057.png)
+![road_9](runs/1530101366.4601467/uu_000058.png)
+![road_10](runs/1530101366.4601467/uu_000059.png)
+![road_11](runs/1530101366.4601467/uu_000071.png)
+![road 12](runs/1530101366.4601467/uu_000097.png)
  
  there are not perfect but somewhere more than 80% correctly painted.
  
